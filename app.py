@@ -256,18 +256,33 @@ def render_editor() -> None:
         st.success("Post excluído!")
         st.rerun()
 
+# ATENÇÃO: Verifique se esta linha está lá no topo do seu arquivo app.py!
+# import urllib.parse
+
 def main() -> None:
     st.set_page_config(page_title="Feed Planner", page_icon="📸", layout="wide")
     init_state()
 
-    # Verifica se a URL tem ?view=cliente
+    # Verifica os parâmetros da URL
     is_client_view = st.query_params.get("view") == "cliente"
+    projeto_cliente = st.query_params.get("projeto")
 
+    # --- TELA DO CLIENTE ---
     if is_client_view:
-        st.title(f"📸 Previsão de Feed: {st.session_state.project['name']}")
-        st.write("Acompanhe abaixo a prévia visual e as legendas programadas para o seu perfil.")
-        render_feed_grid(st.session_state.project["posts"], empty_slots=0, is_client_view=True)
-        return  # Encerra o app aqui para o cliente não ver o resto!
+        if projeto_cliente:
+            # Puxa as fotos do banco de dados para esse projeto específico
+            load_project(projeto_cliente)
+            
+            st.title(f"📸 Previsão de Feed: {st.session_state.project['name']}")
+            st.write("Acompanhe abaixo a prévia visual e as legendas programadas para o seu perfil.")
+            
+            # Mostra a grade do cliente
+            render_feed_grid(st.session_state.project["posts"], empty_slots=0, is_client_view=True)
+        else:
+            # Se a pessoa digitar só /?view=cliente sem o nome do projeto
+            st.warning("⚠️ O link está incompleto! Faltou o nome do projeto na URL.")
+        
+        return  # Para a execução aqui para o cliente não ver a edição
 
     # --- TELA DE ADMINISTRAÇÃO (Sua Tela) ---
     st.title("📸 Feed Planner Pro")
@@ -304,20 +319,21 @@ def main() -> None:
             st.rerun()
 
         empty_slots = st.number_input("Espaços vazios", min_value=0, max_value=60, value=max(9 - len(st.session_state.project["posts"]), 0), step=3)
-        st.divider()
-
+        
         if st.button("Salvar alterações na Nuvem", use_container_width=True):
             save_project()
             st.success("Tudo salvo!")
-            # ... (código existente da sidebar)
 
-        # --- NOVO BLOCO: LINK DE COMPARTILHAMENTO ---
+        # --- CAIXINHA DO LINK MÁGICO ---
         st.divider()
         st.header("🔗 Link para o Cliente")
         st.write("Copie o link abaixo e envie para aprovação:")
         
-        # Substitua "seu-app" pelo nome real que o Streamlit te der quando publicarmos
-        link_cliente = "https://feedpreview-hrmqly8wuwbvgjrtcjbrbb.streamlit.app/?view=cliente"
+        # 1. Transforma os espaços do nome em texto de URL (ex: "Meu Projeto" vira "Meu%20Projeto")
+        projeto_url = urllib.parse.quote(st.session_state.project["name"])
+        
+        # 2. Monta o link final. TROQUE AQUI PELO SEU DOMÍNIO REAL QUANDO PUBLICAR.
+        link_cliente = f"https://SEU-APP.streamlit.app/?view=cliente&projeto={projeto_url}"
         
         st.code(link_cliente, language="text")
 
