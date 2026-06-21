@@ -309,6 +309,20 @@ def main() -> None:
         if st.button("Salvar alterações na Nuvem", use_container_width=True):
             save_project()
             st.success("Tudo salvo!")
+            # ... (código existente da sidebar)
+        if st.button("Salvar alterações na Nuvem", use_container_width=True):
+            save_project()
+            st.success("Tudo salvo!")
+
+        # --- NOVO BLOCO: LINK DE COMPARTILHAMENTO ---
+        st.divider()
+        st.header("🔗 Link para o Cliente")
+        st.write("Copie o link abaixo e envie para aprovação:")
+        
+        # Substitua "seu-app" pelo nome real que o Streamlit te der quando publicarmos
+        link_cliente = "https://seu-app.streamlit.app/?view=cliente"
+        
+        st.code(link_cliente, language="text")
 
     left, right = st.columns([2.2, 1], gap="large")
     with left:
