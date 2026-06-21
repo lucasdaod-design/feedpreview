@@ -325,16 +325,16 @@ def main() -> None:
             save_project()
             st.success("Tudo salvo!")
 
-        # --- CAIXINHA DO LINK MÁGICO ---
+# --- CAIXINHA DO LINK MÁGICO ---
         st.divider()
         st.header("🔗 Link para o Cliente")
         st.write("Copie o link abaixo e envie para aprovação:")
         
-        # 1. Transforma os espaços do nome em texto de URL (ex: "Meu Projeto" vira "Meu%20Projeto")
+        # 1. Transforma os espaços do nome em texto de URL
         projeto_url = urllib.parse.quote(st.session_state.project["name"])
         
-        # 2. Monta o link final. TROQUE AQUI PELO SEU DOMÍNIO REAL QUANDO PUBLICAR.
-        link_cliente = f"https://SEU-APP.streamlit.app/?view=cliente&projeto={projeto_url}"
+        # 2. O seu link real e definitivo!
+        link_cliente = f"https://feedpreview-hrmqly8wuwbvgjrtcjbrbb.streamlit.app/?view=cliente&projeto={projeto_url}"
         
         st.code(link_cliente, language="text")
 
