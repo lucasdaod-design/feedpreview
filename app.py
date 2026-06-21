@@ -310,9 +310,6 @@ def main() -> None:
             save_project()
             st.success("Tudo salvo!")
             # ... (código existente da sidebar)
-        if st.button("Salvar alterações na Nuvem", use_container_width=True):
-            save_project()
-            st.success("Tudo salvo!")
 
         # --- NOVO BLOCO: LINK DE COMPARTILHAMENTO ---
         st.divider()
