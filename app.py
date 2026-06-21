@@ -1,6 +1,7 @@
 import uuid
 from datetime import date
 from io import BytesIO
+import urllib.parse
 
 import streamlit as st
 from PIL import Image, ImageDraw, ImageOps
