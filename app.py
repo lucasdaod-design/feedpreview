@@ -317,7 +317,7 @@ def main() -> None:
         st.write("Copie o link abaixo e envie para aprovação:")
         
         # Substitua "seu-app" pelo nome real que o Streamlit te der quando publicarmos
-        link_cliente = "https://https://feedpreview-hrmqly8wuwbvgjrtcjbrbb.streamlit.app/?view=cliente"
+        link_cliente = "https://feedpreview-hrmqly8wuwbvgjrtcjbrbb.streamlit.app/?view=cliente"
         
         st.code(link_cliente, language="text")
 
